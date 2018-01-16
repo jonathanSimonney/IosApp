@@ -20,10 +20,12 @@ class ViewController: UIViewController {
     @IBAction func checkAction(_ sender: UIButton) {
         if self.emailTextField.text == nil{
             self.createAlert(isValid: false)
+            return;
         }else{
             let email = Email(email: self.emailTextField.text!)
             if !email.isValid(){
                 self.createAlert(isValid: false)
+                return;
             }
             
             self.createAlert(isValid: true)
@@ -32,9 +34,13 @@ class ViewController: UIViewController {
     
     func createAlert(isValid: Bool){
         let message = isValid ? "Votre email est valide" : "Votre email n'est pas valide"
+        //let message = isValid ? "Votre email est valide" : "Votre email n'est pas valide"
         
         let alert = UIAlertController(title: "Vérification email", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Fermer", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Fermer", style: UIAlertActionStyle.default, handler: { _ in
+            self.performSegue(withIdentifier: "showModal", sender: nil)
+        }))
+            
         self.present(alert, animated: true, completion: nil)
     }
     
